@@ -1,14 +1,15 @@
-package credentials
+package gorm
 
 import (
 	"context"
 	"log"
 	"os"
-	"strconv"
 	"testing"
 	"time"
 
 	redis_cache "github.com/duolacloud/crud-cache-redis"
+	"github.com/duolacloud/crud-core/repositories"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -17,10 +18,16 @@ import (
 
 func TestCredentialProvider(t *testing.T) {
 	cache, _ := redis_cache.NewRedisCache()
-	provider := NewCacheCredentialProvider(setupDB(), cache)
+	provider := NewGormCredentialProvider(
+		setupDB(),
+		WithCache(cache),
+		WithCacheRepositoryOptions(
+			repositories.WithExpiration(5*time.Second),
+		),
+	)
 
 	app := "douyin"
-	clientId := strconv.FormatInt(time.Now().Unix(), 10)
+	clientId := uuid.NewString()
 	credentialType := "password"
 	t.Logf("clientId: %s", clientId)
 
@@ -43,6 +50,11 @@ func TestCredentialProvider(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, "root", options["username"])
 	assert.Equal(t, "secret", options["password"])
+
+	time.Sleep(6 * time.Second)
+	cachedOptions := make(map[string]any)
+	cache.Get(context.TODO(), "", &cachedOptions)
+	assert.Empty(t, cachedOptions)
 
 	options, err = provider.Get(context.TODO(), app, clientId, credentialType)
 	assert.Nil(t, err)
