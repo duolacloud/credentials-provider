@@ -55,3 +55,11 @@ err = provider.Set(
 options, err = provider.Get(context.TODO(), "douyin", "123456", "password")
 
 ```
+
+### 基于 Gorm 的凭证管理
+
+```go
+import "github.com/duolacloud/credentials-provider/gorm"
+
+provider := NewMemoryCredentialProvider()
+```
