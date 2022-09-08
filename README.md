@@ -17,11 +17,11 @@ go get github.com/duolacloud/credentials-provider
 ```go
 
 import (
-	"github.com/duolacloud/crud-core/repositories"
-	"github.com/duolacloud/crud-cache-redis"
-	"github.com/duolacloud/credentials-provider/gorm"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
+  "github.com/duolacloud/crud-core/repositories"
+  "github.com/duolacloud/crud-cache-redis"
+  "github.com/duolacloud/credentials-provider/gorm"
+  "gorm.io/driver/mysql"
+  "gorm.io/gorm"
 )
 
 // 初始化数据库
@@ -31,24 +31,24 @@ err = db.AutoMigrate(&gorm.Credential{})
 // 创建凭证管理
 c, err := cache.NewRedisCache()
 provider := NewGormCredentialProvider(
-	// gorm实例
-	db,
+  // gorm实例
+  db,
 
-	// 启用缓存
-	WithCache(cache),
-	// 缓存超时时间
-	WithCacheRepositoryOptions(
-		repositories.WithExpiration(5*time.Second),
-	),
+  // 启用缓存
+  WithCache(cache),
+  // 缓存超时时间
+  WithCacheRepositoryOptions(
+    repositories.WithExpiration(5*time.Second),
+  ),
 )
 
 // 设置凭证
 err = provider.Set(
-	context.TODO(), 
-	"douyin", 
-	"123456", 
-	"password", 
-	map[string]any{"username": "root", "password": "root"},
+  context.TODO(), 
+  "douyin", 
+  "123456", 
+  "password", 
+  map[string]any{"username": "root", "password": "root"},
 )
 
 // 查询凭证
