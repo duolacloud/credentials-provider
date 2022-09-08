@@ -19,7 +19,7 @@ go get github.com/duolacloud/credentials-provider
 import (
   "github.com/duolacloud/crud-core/repositories"
   "github.com/duolacloud/crud-cache-redis"
-  "github.com/duolacloud/credentials-provider/gorm"
+  gorm_provider "github.com/duolacloud/credentials-provider/gorm"
   "gorm.io/driver/mysql"
   "gorm.io/gorm"
 )
@@ -30,7 +30,7 @@ err = db.AutoMigrate(&gorm.Credential{})
 
 // 创建凭证管理
 c, err := cache.NewRedisCache()
-provider := NewGormCredentialProvider(
+provider := gorm_provider.NewGormCredentialProvider(
   // gorm实例
   db,
 
@@ -59,7 +59,7 @@ options, err = provider.Get(context.TODO(), "douyin", "123456", "password")
 ### 基于内存的凭证管理
 
 ```go
-import "github.com/duolacloud/credentials-provider/gorm"
+import "github.com/duolacloud/credentials-provider/memory"
 
-provider := NewMemoryCredentialProvider()
+provider := memory.NewMemoryCredentialProvider()
 ```
