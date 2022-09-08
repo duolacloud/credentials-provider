@@ -16,7 +16,7 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-func TestCredentialProvider(t *testing.T) {
+func TestGormCredentialProvider(t *testing.T) {
 	cache, _ := redis_cache.NewRedisCache()
 	provider := NewGormCredentialProvider(
 		setupDB(),
