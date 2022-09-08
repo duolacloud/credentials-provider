@@ -1,6 +1,18 @@
 version: '3'
 
 services:
+  redis:
+    image: redis:6
+    ports:
+      - 6379:6379
+    volumes:
+      - ~/opt/database/redis:/data
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "5"
   mysql:
     image: mysql:8.0
     environment:
