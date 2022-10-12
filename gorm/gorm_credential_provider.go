@@ -2,6 +2,7 @@ package gorm
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 
@@ -9,6 +10,7 @@ import (
 	gorm_repo "github.com/duolacloud/crud-core-gorm/repositories"
 	"github.com/duolacloud/crud-core/cache"
 	"github.com/duolacloud/crud-core/repositories"
+	"github.com/duolacloud/crud-core/types"
 	"gorm.io/datatypes"
 	"gorm.io/gorm"
 )
@@ -101,12 +103,11 @@ func (p *GormCredentialProvider) Set(ctx context.Context, app, key, credentialTy
 		"type": credentialType,
 	}
 
-	credential, err := p.repo.Get(ctx, primaryKeys)
-	if err != nil {
+	_, err := p.repo.Get(ctx, primaryKeys)
+	if err != nil && !errors.Is(err, types.ErrNotFound) {
 		return err
 	}
-
-	if credential == nil {
+	if err != nil && errors.Is(err, types.ErrNotFound) {
 		// TODO 并发时可能会重复创建，这里先直接返回错误简单处理
 		_, err = p.repo.Create(ctx, &Credential{
 			ID:      id,
@@ -132,10 +133,11 @@ func (p *GormCredentialProvider) Get(ctx context.Context, app, key, credentialTy
 
 	credential, err := p.repo.Get(ctx, primaryKeys)
 	if err != nil {
-		return nil, err
-	}
-	if credential == nil {
-		return nil, nil
+		if errors.Is(err, types.ErrNotFound) {
+			return nil, nil
+		} else {
+			return nil, err
+		}
 	}
 	return credential.Options, nil
 }

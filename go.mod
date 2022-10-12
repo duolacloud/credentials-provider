@@ -3,9 +3,9 @@ module github.com/duolacloud/credentials-provider
 go 1.18
 
 require (
-	github.com/duolacloud/crud-cache-redis v0.0.3
-	github.com/duolacloud/crud-core v0.0.3
-	github.com/duolacloud/crud-core-gorm v0.0.4
+	github.com/duolacloud/crud-cache-redis v0.0.5
+	github.com/duolacloud/crud-core v0.0.4
+	github.com/duolacloud/crud-core-gorm v0.0.9
 	github.com/google/uuid v1.3.0
 	github.com/stretchr/testify v1.7.1
 	gorm.io/datatypes v1.0.7
