@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/duolacloud/crud-cache-redis v0.0.5
 	github.com/duolacloud/crud-core v0.0.4
-	github.com/duolacloud/crud-core-gorm v0.0.9
+	github.com/duolacloud/crud-core-gorm v0.0.11
 	github.com/google/uuid v1.3.0
 	github.com/stretchr/testify v1.7.1
 	gorm.io/datatypes v1.0.7
@@ -20,6 +20,7 @@ require (
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
+	github.com/oleiade/reflections v1.0.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
